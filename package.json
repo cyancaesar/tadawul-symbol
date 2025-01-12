@@ -1,7 +1,7 @@
 {
   "name": "tadawul-symbol",
   "version": "1.0.0",
-  "description": "Tadawul symbols fetcher from the Saudi Exchange",
+  "description": "A Library for fetching up to date symbols from the Saudi Exchange (Tadawul)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
