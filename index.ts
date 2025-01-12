@@ -5,7 +5,7 @@ import { fetchSymbols } from "./src";
   const tasiSymbolsAR = await fetchSymbols("TASI", "AR");
 
   // Fetch all Main Market "TASI" symbols in English "EN"
-  const tasiSymbolsEN = await fetchSymbols("TASI", "AR");
+  const tasiSymbolsEN = await fetchSymbols("TASI", "EN");
 
   // Fetch all Parallel Market "NOMUC" symbols in Arabic "AR"
   const nomucSymbolsAR = await fetchSymbols("NOMUC", "AR");
