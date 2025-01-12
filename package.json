@@ -1,0 +1,37 @@
+{
+  "name": "tadawul-symbol",
+  "version": "1.0.0",
+  "description": "Tadawul symbols fetcher from the Saudi Exchange",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "clean": "rimraf dist",
+    "prepare": "yarn build"
+  },
+  "keywords": [
+    "saudi",
+    "exchange",
+    "symbols",
+    "stocks",
+    "typescript",
+    "tadawul"
+  ],
+  "author": "cyancaesar",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "rimraf": "^5.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist"
+  ]
+}
