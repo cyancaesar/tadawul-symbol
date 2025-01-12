@@ -11,6 +11,10 @@
     "clean": "rimraf dist",
     "prepare": "yarn build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyancaesar/tadawul-symbol.git"
+  },
   "keywords": [
     "saudi",
     "exchange",
