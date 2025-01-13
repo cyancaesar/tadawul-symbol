@@ -1,26 +1,76 @@
 import { fetchUrl } from "./fetchUrl";
-import { MarketType, Locale, TadawulResponse } from "./types";
+import {
+  MarketType,
+  TadawulResponse,
+  RefResponse,
+  TadawulSymbol,
+} from "./types";
 
 /**
  * Fetches an array of symbol data from a remote source based on the given market and locale.
  *
  * @param {MarketType} market - The specific market type (e.g., TASI, NOMUC).
- * @param {keyof Locale} locale - The locale to use for fetching (e.g., "AR" or "EN").
- * @returns {Promise<TadawulResponse>} A Promise that resolves to an array of SymbolData.
+ * @returns {Promise<TadawulSymbol[]>} A Promise that resolves to an array of SymbolData.
  * @throws Will throw an error if the fetch request fails or the response status is not OK.
  */
 export async function fetchSymbols(
   market: MarketType,
-  locale: keyof Locale,
-): Promise<TadawulResponse> {
-  const url = await fetchUrl(market, locale);
+): Promise<TadawulSymbol[]> {
+  const urls = await fetchUrl(market);
   try {
-    const response = await fetch(url);
-    if (!response.ok)
-      throw new Error(`Failed to fetch symbols: ${response.statusText}`);
+    const refResponse = await fetch(urls[2]);
+    if (!refResponse.ok)
+      throw new Error(`Failed to ref symbols: ${refResponse.statusText}`);
 
-    const data: TadawulResponse = await response.json();
-    return data;
+    const referenceArray: RefResponse[] = await refResponse.json();
+
+    const responseAr = await fetch(urls[0]);
+    if (!responseAr.ok)
+      throw new Error(`Failed to fetch symbols: ${responseAr.statusText}`);
+
+    const responseEn = await fetch(urls[1]);
+    if (!responseEn.ok)
+      throw new Error(`Failed to fetch symbols: ${responseEn.statusText}`);
+
+    const dataAr: TadawulResponse = await responseAr.json();
+    const dataEn: TadawulResponse = await responseEn.json();
+
+    const result = dataAr.data.map((row) => {
+      const reference = referenceArray.find((el) => el.symbol === row.symbol);
+      if (!reference)
+        throw new Error(`Failed to find ref symbol: ${row.symbol}`);
+
+      const elementEn = dataEn.data.find((el) => el.symbol === row.symbol);
+
+      if (!elementEn)
+        throw new Error(`Failed to find ref symbol: ${row.symbol}`);
+
+      const {
+        symbol,
+        companyNameAR: nameAr,
+        companyNameEN: nameEn,
+        tradingNameAr,
+        tradingNameEn,
+        isin,
+      } = reference;
+
+      const result: TadawulSymbol = {
+        symbol,
+        nameAr,
+        nameEn,
+        tradingNameAr,
+        tradingNameEn,
+        sectorAr: row.sectorName,
+        sectorEn: elementEn.sectorName,
+        isin,
+        marketType: market,
+        profileUrl: new URL(row.companyURL, "https://www.saudiexchange.sa")
+          .href,
+      };
+
+      return result;
+    });
+    return result;
   } catch (error) {
     throw new Error(`Failed to fetch symbols`);
   }

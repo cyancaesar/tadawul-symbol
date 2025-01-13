@@ -9,7 +9,7 @@ Using [Saudi Exchange](https://www.saudiexchange.sa/) "UNOFFICIAL API" to fetch 
 ## Features
 
 - Fetch market symbols for `TASI` and `NOMUC` markets.
-- Support for both Arabic `AR` and English `EN` locales.
+- Support for both Arabic and English.
 
 ## Installation (Package Manager)
 
@@ -61,23 +61,27 @@ yarn tsx index.ts
 ```ts
 import { fetchSymbols } from "tadawul-symbol";
 
-// Fetch all Main Market "TASI" symbols in Arabic "AR"
-const tasiSymbolsAR = await fetchSymbols("TASI", "AR");
+// Fetch all Main Market "TASI" symbols
+const tasiSymbols = await fetchSymbols("TASI");
 
-// Fetch all Main Market "TASI" symbols in English "EN"
-const tasiSymbolsEN = await fetchSymbols("TASI", "EN");
+// Fetch all Parallel Market "NOMUC" symbols
+const nomucSymbols = await fetchSymbols("NOMUC");
 
-// Fetch all Parallel Market "NOMUC" symbols in Arabic "AR"
-const nomucSymbolsAR = await fetchSymbols("NOMUC", "AR");
-
-// Fetch all Parallel Market "NOMUC" symbols in English "EN"
-const nomucSymbolsEN = await fetchSymbols("NOMUC", "EN");
-
-// Number of symbols returned
-console.log("tasiSymbolsAR:", tasiSymbolsAR.recordsTotal);
-console.log("tasiSymbolsEN:", tasiSymbolsEN.recordsTotal);
-console.log("nomucSymbolsAR:", nomucSymbolsAR.recordsTotal);
-console.log("nomucSymbolsEN:", nomucSymbolsEN.recordsTotal);
+/* 
+Symbols are returned in this shape:
+{
+  symbol: string;
+  nameAr: string;
+  nameEn: string;
+  tradingNameAr: string;
+  tradingNameEn: string;
+  sectorAr: string;
+  sectorEn: string;
+  isin: string;
+  marketType: MarketType;
+  profileUrl: string;
+}[]
+*/
 ```
 
 ## License
