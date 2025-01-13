@@ -59,7 +59,7 @@ yarn tsx index.ts
 ## Usage
 
 ```ts
-import { fetchSymbols } from "tadawul-symbols";
+import { fetchSymbols } from "tadawul-symbol";
 
 // Fetch all Main Market "TASI" symbols in Arabic "AR"
 const tasiSymbolsAR = await fetchSymbols("TASI", "AR");
